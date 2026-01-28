@@ -164,7 +164,10 @@ static RESULT run(Preview *p, int *exitcode, int *signal)
 
 RESULT preview_run(const char *ext, const char *mimetype, PreviewArgs *pa)
 {
-    if (pa->id || (pa->id = getenv("id")))
+    char *env_id = getenv("id");
+    if (env_id)
+        pa->id = env_id;
+    if (pa->id)
         ERRCHK_RET_OK(server_set_fifo_var(pa->id));
 
     SET_PENV("f", pa->f);
